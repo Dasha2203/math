@@ -31,35 +31,22 @@ function ctg(x) {
   return 1 / Math.tan(x);
 }
 
-const multiplyNumbers = (...args) => {
+function calc(operator, ...args) {
+  let operators = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    "*": (a, b) => a * b,
+    "/": (a, b) => a / b,
+  }
+
   let result = args[0];
 
   for (let i = 1; i < args.length; i++) {
-    result *= args[i];
+    result = operators[operator](result, args[i]);
   }
 
   return result;
-};
-
-const amount = (...args) => {
-  let result = args[0];
-
-  for (let i = 1; i < args.length; i++) {
-    result += args[i];
-  }
-
-  return result;
-};
-
-const difference = (...args) => {
-  let result = args[0];
-
-  for (let i = 1; i < args.length; i++) {
-    result -= args[i];
-  }
-
-  return result;
-};
+}
 
 //Окружность
 function circleAreaRadius(r) {
@@ -81,27 +68,27 @@ function squareAreaDiagonal(diagonalLength) {
 
 //Прямоугольник
 function squareRectangle(height, weight) {
-  return multiplyNumbers(height, weight);
+  return calc('*', height, weight);
 }
 
 //Параллелограмм
 function parallelogramArea(sideLength, height) {
-  return multiplyNumbers(sideLength, height);
+  return calc('*', sideLength, height);
 }
 
 //Эллипс
 function ellipseArea(a, b) {
-  return multiplyNumbers(Math.PI, a, b);
+  return calc('*', Math.PI, a, b);
 }
 
 //Трапеция
 function trapezeArea(a, b, h) {
-  return 1/2 * amount(a, b) * h;
+  return 1/2 * calc('+', a, b) * h;
 }
 
 function trapezeAreaGeron(a, b, c, d) {
-  let p = amount(a, b, c, d) / 2;
-  let area = amount(a,b) / Math.abs(a-b) * sqrt((p-a) * (p-b) * (p-a-c) * (p-a-d));
+  let p = calc('+', a, b, c, d) / 2;
+  let area = calc('+', a,b) / Math.abs(a-b) * sqrt((p-a) * (p-b) * (p-a-c) * (p-a-d));
 
   return area;
 }
@@ -255,7 +242,7 @@ console.log('Площадь окружности равна ', circleAreaRadius(
 console. log('Площадь окружности равна ', circleAreaDiameter(8))
 
 separatorLog('Прямоугольник');
-console. log('Площадь прямоугольника равна ', multiplyNumbers(2, 4))
+console. log('Площадь прямоугольника равна ', calc('*', 2, 4))
 
 separatorLog('Трапеция');
 console.log(`Площадь трапеции ${trapezeArea(4, 7, 4)}`)
@@ -285,5 +272,11 @@ console.log(`Объем сферы V = ${ballVolume(4)}`);
 console.log(`Площадь сферы S = ${ballArea(4)}`);
 
 separatorLog('Многоугольники');
-console.log('Длина стороны многоугольника ', polygonSideLength(7, 4))
-console.log('Площадь многоугольника через радиус вписанной окружности ', polygonArea(7, 4))
+console.log('Длина стороны многоугольника ', polygonSideLength(7, 4));
+console.log('Площадь многоугольника через радиус вписанной окружности ', polygonArea(7, 4));
+
+separatorLog('Универсальная функция для работы с двумя числами');
+console.log('Сумма: ', calc('+', 1, 4, 4));
+console.log('Разность: ', calc('*', 1, 9, 9));
+console.log('Произведение: ', calc('*', 1, 9, 9));
+console.log('Частное: ', calc('-', 1, 9, 9));
